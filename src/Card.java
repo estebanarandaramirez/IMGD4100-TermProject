@@ -1,6 +1,6 @@
 public class Card {
-    public Values value;
-    public Colors color;
+    private Values value;
+    private Colors color;
 
     public Card(Values value, Colors color) {
         this.value = value;
