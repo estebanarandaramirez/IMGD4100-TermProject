@@ -120,6 +120,11 @@ public class Deck {
                 color = null;
         }
 
+        if((value == Values.ChangeColor && color != Colors.Wild) || (value == Values.DrawFour && color != Colors.Wild) || (value != Values.ChangeColor && value != Values.DrawFour && color == Colors.Wild)) {
+            value = null;
+            color = null;
+        }
+
         return new Card(value, color);
     }
 }
