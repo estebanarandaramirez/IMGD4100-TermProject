@@ -1,17 +1,20 @@
+import java.util.ArrayList;
+
 public class Deck {
-    Card[] cards;
+    public ArrayList<Card> cards;
+    public DiscardPile discardPile;
+    static final int DECK_SIZE = 108;
 
     public Deck() {
-        cards = new Card[108];
+        cards = new ArrayList<Card>();
+        discardPile = new DiscardPile();
 
-        int counter = 0;
         for(Values value : Values.values()) {
             for (Colors color : Colors.values()) {
                 switch (value) {
                     case Zero:
                         if (color != Colors.Wild) {
-                            cards[counter] = new Card(value, color);
-                            counter++;
+                            cards.add(new Card(value, color));
                         }
                         break;
                     case One:
@@ -28,8 +31,7 @@ public class Deck {
                     case Reverse:
                         if (color != Colors.Wild) {
                             for (int i = 0; i < 2; i++) {
-                                cards[counter] = new Card(value, color);
-                                counter++;
+                                cards.add(new Card(value, color));
                             }
                         }
                         break;
@@ -37,8 +39,7 @@ public class Deck {
                     case ChangeColor:
                         if (color == Colors.Wild) {
                             for (int i = 0; i < 4; i++) {
-                                cards[counter] = new Card(value, color);
-                                counter++;
+                                cards.add(new Card(value, color));
                             }
                         }
                         break;
@@ -47,8 +48,37 @@ public class Deck {
         }
     }
 
-    public Card convertToCard(String card) {
-        String[] attributes = card.split("-");
+
+    public boolean playCard(Card c) {
+        for (int i = 0; i < this.cards.size(); i++) {
+            if (this.cards.get(i).equals(c)){
+                cards.remove(i);
+                discardPile.cards.add(c);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean drawCard(Card c) {
+        for (int i = 0; i < this.cards.size(); i++) {
+            if (this.cards.get(i).equals(c)){
+                cards.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void reshuffle() {
+        while (discardPile.cards.size() != 1) {
+            this.cards.add(discardPile.cards.get(0));
+            discardPile.cards.remove(0);
+        }
+    }
+
+    public Card convertToCard(String c) {
+        String[] attributes = c.split("-");
         if(attributes.length != 2)
             return new Card(null, null);
 
