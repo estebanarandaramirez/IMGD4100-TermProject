@@ -86,7 +86,7 @@ public class StartGame {
 
             if (!flag) {
                 if (game.deck.hasCard(cardToAdd))
-                    game.deck.discardPile.playCard(cardToAdd);
+                    game.deck.playCard(cardToAdd);
                 else {
                     flag = true;
                     System.out.println("Card not in deck");

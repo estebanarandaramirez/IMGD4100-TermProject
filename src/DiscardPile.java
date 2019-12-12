@@ -14,8 +14,4 @@ public class DiscardPile {
         }
         return cards.get(cards.size() - 1);
     }
-
-    public void playCard(Card c) {
-        cards.add(c);
-    }
 }
