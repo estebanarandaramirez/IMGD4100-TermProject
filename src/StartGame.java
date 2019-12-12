@@ -120,8 +120,10 @@ public class StartGame {
             }
             if (game.isUserTurn())
                 System.out.printf("TURN %d - Your turn: (%s) ", turn, game.recommendCard(game.deck.discardPile.getTopCard().getColor()));
-            else
+            else {
                 System.out.printf("TURN %d - Opponent %d's turn: ", turn, game.turnCounter);
+                game.players.get(game.turnCounter).printCantPlayCards();
+            }
             input = in.nextLine();
 
             // 'exit' command

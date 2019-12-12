@@ -5,8 +5,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TermProject/Game$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TermProject/Game$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TermProject/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TermProject/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TermProject/Hand.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TermProject/Hand.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TermProject/StartGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TermProject/StartGame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/StartGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/StartGame.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -94,7 +95,7 @@
       <workItem from="1575756324668" duration="5332000" />
       <workItem from="1576033064610" duration="1271000" />
       <workItem from="1576077790284" duration="16097000" />
-      <workItem from="1576147779528" duration="7877000" />
+      <workItem from="1576147779528" duration="8917000" />
     </task>
     <servers />
   </component>
