@@ -34,4 +34,8 @@ public class Hand {
             cardsCantPlayOn.remove(0);
         }
     }
+    
+    public int handSize() {
+    	return numCards;
+    }
 }

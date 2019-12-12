@@ -200,4 +200,166 @@ public class Game {
 
         return new Card(value, color);
     }
+    
+    //use the bot AI to recommend a card
+    //adapted from https://boardgames.stackexchange.com/questions/13162/what-specific-strategies-have-the-highest-winloss-ratio-in-uno)
+    //currentColor: the current color (can't retrieve this from the top card, because it might be wild)
+    public String recommendCard(Colors currentColor) {
+    	String result = "Suggested Play: ";
+    	Card topCard = new Card(deck.discardPile.getTopCard().getValue(), currentColor);
+    	
+    	int drawFourIndex = userHand.playableCardIndex(Values.DrawFour, topCard);
+    	int changeColorIndex = userHand.playableCardIndex(Values.ChangeColor, topCard);
+    	int drawTwoIndex = userHand.playableCardIndex(Values.DrawTwo, topCard);
+    	int reverseIndex = userHand.playableCardIndex(Values.Reverse, topCard);
+    	int skipIndex = userHand.playableCardIndex(Values.Skip, topCard);
+    	int highestNumIndex = userHand.playableCardIndex(userHand.highestOfColor(currentColor), topCard);
+    	//if the user doesn't have a number card of the top color, they might have a card that matches the top number
+    	if (highestNumIndex == -1) {
+    		highestNumIndex = userHand.playableCardIndex(topCard.getValue(), topCard);
+    	}
+    	
+    	Hand nextOpponent;
+    	Hand previousOpponent;
+    	Hand oppositeOpponent = players.get(1);
+    	if (isReversed) {
+    		nextOpponent = players.get(0);
+    		previousOpponent = players.get(2);
+    	}
+    	else {
+    		nextOpponent = players.get(2);
+    		previousOpponent = players.get(0);
+    	}
+    	
+    	
+    	int leadingPlayerHandSize = Math.min(userHand.handSize(), 
+    			Math.min(nextOpponent.handSize(), 
+    					Math.min(previousOpponent.handSize(), oppositeOpponent.handSize())));
+    	
+    	//Going to lose; get rid of high points
+    	if (leadingPlayerHandSize < userHand.handSize() / 2 
+    			&& leadingPlayerHandSize < userHand.handSize() - 3) {
+    		if (drawFourIndex != -1) return result + "DrawFour, call " + getColorToCall();
+    		if (changeColorIndex != -1) return result + "ChangeColor, call " + getColorToCall();
+    		if (drawTwoIndex != -1) return result + userHand.getCard(drawTwoIndex).toString();
+    		if (previousOpponent.handSize() > oppositeOpponent.handSize()) {
+    			if (reverseIndex != -1) return result + userHand.getCard(reverseIndex).toString();
+    			if (skipIndex != -1) return result + userHand.getCard(skipIndex).toString();
+    			if (highestNumIndex != -1) return result + userHand.getCard(highestNumIndex).toString();
+    		}
+    		else {
+    			if (skipIndex != -1) return result + userHand.getCard(skipIndex).toString();
+    			if (reverseIndex != -1) return result + userHand.getCard(reverseIndex).toString();
+    			if (highestNumIndex != -1) return result + userHand.getCard(highestNumIndex).toString();
+    		}
+    	}
+    	
+    	//Try to save one black card for the end, otherwise get rid of extras
+    	else if (userHand.numCardsOfColor(Colors.Wild) > 1) {
+    		if (drawFourIndex != -1) return result + "DrawFour, call " + getColorToCall();
+    		if (changeColorIndex != -1) return result + "ChangeColor, call " + getColorToCall();
+    	}
+    	
+    	//Use a draw 2 if necessary, but you should save one
+    	else if (userHand.numCardsOfValue(Values.DrawTwo) > 1 || nextOpponent.handSize() < 3) {
+    		if (drawTwoIndex != -1) return result + userHand.getCard(drawTwoIndex).toString();
+    	}
+    	
+    	//Play normally
+    	if (skipIndex != -1) return result + userHand.getCard(skipIndex).toString();
+    	if (drawTwoIndex != -1) return result + userHand.getCard(drawTwoIndex).toString();
+    	if (reverseIndex != -1) return result + userHand.getCard(reverseIndex).toString();
+    	if (highestNumIndex != -1) return result + userHand.getCard(highestNumIndex).toString();
+		if (drawFourIndex != -1) return result + "DrawFour, call " + getColorToCall();
+		
+		//if the game isn't close to being lost, save your wilds
+		if (leadingPlayerHandSize > 2 && leadingPlayerHandSize > userHand.handSize() - 1) {
+			return result + "Pass";
+		}
+		if (changeColorIndex != -1) return result + "ChangeColor, call " + getColorToCall();
+		
+		//there are no cards the user can play
+		return result + "Pass";
+    }
+    
+    //return the most optimal color to call
+    public String getColorToCall() {
+    	int redCounter = 0, blueCounter = 0, 
+    			yellowCounter = 0, greenCounter = 0;
+    	boolean hasRed = false, hasBlue = false, 
+    			hasYellow = false, hasGreen = false;
+    	ArrayList<Card> myCards = userHand.getCards();
+    	for (int i = 0; i < myCards.size(); i++) {
+    		switch (myCards.get(i).getColor()) {
+    		case Red:
+    			redCounter ++;
+    			hasRed = true;
+    			break;
+    		case Blue:
+    			blueCounter ++;
+    			hasBlue = true;
+    			break;
+    		case Yellow:
+    			yellowCounter++;
+    			hasYellow = true;
+    			break;
+    		case Green:
+    			greenCounter++;
+    			hasGreen = true;
+    			break;
+    			default:
+    		}
+    	}
+    	if (hasRed || hasBlue || hasYellow || hasGreen) {
+    		
+    		//Find the most seen cards in the deck
+    		ArrayList<Card> cardsSeen = deck.discardPile.cards;
+    		for (int i = 0; i < cardsSeen.size(); i++) {
+    			switch (cardsSeen.get(i).getColor()) {
+        		case Red:
+        			if (hasRed) redCounter ++;
+        			break;
+        		case Blue:
+        			if (hasBlue) blueCounter ++;
+        			break;
+        		case Yellow:
+        			if (hasYellow) yellowCounter++;
+        			break;
+        		case Green:
+        			if (hasGreen) greenCounter++;
+        			break;
+        			default:
+        		}
+    		}
+    		//Name the color most often seen so far
+    		return mostCommonColor(redCounter, blueCounter, yellowCounter, greenCounter);
+    	}
+    	else {
+    		//The user's hand is all black cards
+    		return "Red";
+    	}
+    }
+    
+    //Finds the maximum of four numbers
+    //AKA the most common color when counting all four colors in a deck
+    public String mostCommonColor(int numRed, int numBlue, int numYellow, int numGreen) {
+    	int max = numRed;
+    	String maxString = "Red";
+    	
+    	if (numBlue > max) {
+    		max = numBlue;
+    		maxString = "Blue";
+    	}
+    	
+    	if (numYellow > max) {
+    		max = numBlue;
+    		maxString = "Yellow";
+    	}
+    	
+    	if (numGreen > max) {
+    		maxString = "Green";
+    	}
+    	
+    	return maxString;
+    }
 }
