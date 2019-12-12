@@ -105,6 +105,7 @@ public class Game {
                 advanceTurn();
             }
             userHand.removeCard(c);
+            deck.discardPile.playCard(c);
             advanceTurn();
         }
         return validCard;
@@ -126,8 +127,20 @@ public class Game {
         if(attributes.length != 2)
             return new Card(null, null);
 
+        String valueString;
+        String colorString;
+        if(attributes[0].equals("0") || attributes[0].equals("1") || attributes[0].equals("2") || attributes[0].equals("3") || attributes[0].equals("4") || attributes[0].equals("5") || attributes[0].equals("6") || attributes[0].equals("7") || attributes[0].equals("8") || attributes[0].equals("09") ||
+                attributes[0].equals("skip") || attributes[0].equals("Skip") || attributes[0].equals("SKIP") || attributes[0].equals("drawtwo") || attributes[0].equals("DrawTwo") || attributes[0].equals("DWARTWO") || attributes[0].equals("reverse") || attributes[0].equals("Reverse") || attributes[0].equals("REVERSE") ||
+                attributes[0].equals("changecolor") || attributes[0].equals("ChangeColor") || attributes[0].equals("CHANGECOLOR") || attributes[0].equals("drawfour") || attributes[0].equals("DrawFour") || attributes[0].equals("DRAWFOUR")) {
+            valueString = attributes[0];
+            colorString = attributes[1];
+        } else {
+            valueString = attributes[1];
+            colorString = attributes[0];
+        }
+
         Values value;
-        switch (attributes[0]) {
+        switch (valueString) {
             case "0":
                 value = Values.Zero;
                 break;
@@ -177,7 +190,7 @@ public class Game {
                 value = null;
         }
         Colors color;
-        switch (attributes[1]) {
+        switch (colorString) {
             case "Red": case "red": case "RED":
                 color = Colors.Red;
                 break;
