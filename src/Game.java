@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Game {
 
     public static final int HAND_SIZE = 7;
-    public static final int NUM_OPPONENTS = 3;
+    public static final int NUM_OPPONENTS = 4;
 
     Deck deck;
     ArrayList<Hand> players;
@@ -16,11 +16,11 @@ public class Game {
 
     public Game(int startingPlayer) {
 
-        Deck deck = new Deck();
-        ArrayList<Hand> players = new ArrayList<Hand>();
-        PlayerHand userHand = new PlayerHand();
-        turnCounter = startingPlayer;
-        gameFinished = false;
+        this.deck = new Deck();
+        this.players = new ArrayList<Hand>();
+        this.userHand = new PlayerHand();
+        this.turnCounter = startingPlayer;
+        this.gameFinished = false;
 
 
         for (int i = 0; i < NUM_OPPONENTS; i++) {
@@ -31,21 +31,20 @@ public class Game {
     public void advanceTurn() {
         if (!isReversed) {
             turnCounter++;
-            if (turnCounter > NUM_OPPONENTS + 1) {
-                turnCounter = 0;
-            }
+            turnCounter = turnCounter % NUM_OPPONENTS;
         }
         else {
             turnCounter--;
-            if (turnCounter < 0) {
-                turnCounter = NUM_OPPONENTS + 1;
-            }
+            if (turnCounter < 0)
+                turnCounter = NUM_OPPONENTS - 1;
         }
     }
 
     public void opponentDrawCards(int playerNum, int cardsToDraw) {
         players.get(playerNum).draw(cardsToDraw);
         players.get(playerNum).refreshCantPlayOn();
+        if(cardsToDraw > 1)
+            advanceTurn();
     }
 
     public boolean userDrawCard(Card c) {
@@ -117,7 +116,7 @@ public class Game {
     }
 
     public boolean isUserTurn() {
-        return turnCounter == 0;
+        return turnCounter == 3;
     }
 
     public Card convertToCard(String c) {
@@ -127,6 +126,9 @@ public class Game {
 
         Values value;
         switch (attributes[0]) {
+            case "0":
+                value = Values.Zero;
+                break;
             case "1":
                 value = Values.One;
                 break;

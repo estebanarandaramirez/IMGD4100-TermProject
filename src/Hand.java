@@ -27,16 +27,16 @@ public class Hand {
     }
 
     public void addCannotPlayCard(Card c) {
-        cardsCantPlayOn.add(c);
+        if(c != null)
+            cardsCantPlayOn.add(c);
     }
 
     public void refreshCantPlayOn() {
-        while (cardsCantPlayOn.size() != 0) {
-            cardsCantPlayOn.remove(0);
-        }
+        cardsCantPlayOn = new ArrayList<Card>();
     }
     
     public int handSize() {
     	return numCards;
     }
+
 }

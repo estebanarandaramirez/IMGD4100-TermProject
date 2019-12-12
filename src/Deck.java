@@ -70,6 +70,19 @@ public class Deck {
         return false;
     }
 
+    public void addCard(Card c) {
+        cards.add(c);
+    }
+
+    public boolean hasCard(Card c) {
+        for (int i = 0; i < this.cards.size(); i++) {
+            if (this.cards.get(i).equals(c)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void reshuffle() {
         while (discardPile.cards.size() != 1) {
             this.cards.add(discardPile.cards.get(0));
