@@ -7,6 +7,7 @@ public class Hand {
 
     public Hand(int startingNum) {
         numCards = startingNum;
+        cardsCantPlayOn = new ArrayList<Card>();
     }
 
     public void draw(int numToDraw) {

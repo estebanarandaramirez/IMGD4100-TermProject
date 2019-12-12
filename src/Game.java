@@ -28,7 +28,7 @@ public class Game {
         }
     }
 
-    private void advanceTurn() {
+    public void advanceTurn() {
         if (!isReversed) {
             turnCounter++;
             if (turnCounter > NUM_OPPONENTS + 1) {
@@ -71,7 +71,7 @@ public class Game {
             if (c.getValue().equals(Values.Reverse)) {
                 isReversed = !isReversed;
             }
-            else if (c.getValue().equals(Values.Skip)) {
+            else if (c.getValue().equals(Values.Skip) || c.getValue().equals(Values.DrawTwo)) {
                 advanceTurn();
             }
             if (players.get(turnCounter).hasUno()) {
