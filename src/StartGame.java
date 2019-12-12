@@ -63,13 +63,38 @@ public class StartGame {
                             game.deck.addCard(cardsToAdd[j]);
                         }
                         System.out.println("Card(s) not in deck");
-                        break;
                     }
                 }
                 if (!flag)
                     break;
             }
             System.out.println("Input cards in starting hand: ");
+            input = in.nextLine();
+        }
+
+        System.out.println("Input starting discard pile card: ");
+        input = in.nextLine();
+        flag = true;
+        while (flag) {
+            flag = false;
+            Card cardToAdd;
+            cardToAdd = game.convertToCard(input);
+            if (cardToAdd.getValue() == null || cardToAdd.getColor() == null) {
+                System.out.println("Invalid card");
+                flag = true;
+            }
+
+            if (!flag) {
+                if (game.deck.hasCard(cardToAdd))
+                    game.deck.discardPile.playCard(cardToAdd);
+                else {
+                    flag = true;
+                    System.out.println("Card not in deck");
+                }
+                if (!flag)
+                    break;
+            }
+            System.out.println("Input starting discard pile card: ");
             input = in.nextLine();
         }
         System.out.println(" ");
