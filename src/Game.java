@@ -67,6 +67,7 @@ public class Game {
     public boolean opponentPlayCard(Card c) {
         boolean cardPlayed = deck.playCard(c);
         if (cardPlayed) {
+            players.get(turnCounter).discard();
             if (c.getValue().equals(Values.Reverse)) {
                 isReversed = !isReversed;
             }
@@ -81,7 +82,6 @@ public class Game {
                 gameFinished = true;
                 winningPlayer = turnCounter;
             }
-            players.get(turnCounter).discard();
             advanceTurn();
         }
         return cardPlayed;
@@ -90,6 +90,8 @@ public class Game {
     public boolean userPlayCard(Card c) {
         boolean validCard = userHand.contains(c);
         if (validCard) {
+            userHand.removeCard(c);
+            deck.discardPile.playCard(c);
             if (userHand.hasUno()) {
                 System.out.println("You have UNO!");
             }
@@ -104,8 +106,6 @@ public class Game {
             else if (c.getValue().equals(Values.Skip)) {
                 advanceTurn();
             }
-            userHand.removeCard(c);
-            deck.discardPile.playCard(c);
             advanceTurn();
         }
         return validCard;
@@ -222,81 +222,83 @@ public class Game {
     //adapted from https://boardgames.stackexchange.com/questions/13162/what-specific-strategies-have-the-highest-winloss-ratio-in-uno)
     //currentColor: the current color (can't retrieve this from the top card, because it might be wild)
     public String recommendCard(Colors currentColor) {
-    	String result = "Suggested Play: ";
-    	Card topCard = new Card(deck.discardPile.getTopCard().getValue(), currentColor);
-    	
-    	int drawFourIndex = userHand.playableCardIndex(Values.DrawFour, topCard);
-    	int changeColorIndex = userHand.playableCardIndex(Values.ChangeColor, topCard);
-    	int drawTwoIndex = userHand.playableCardIndex(Values.DrawTwo, topCard);
-    	int reverseIndex = userHand.playableCardIndex(Values.Reverse, topCard);
-    	int skipIndex = userHand.playableCardIndex(Values.Skip, topCard);
-    	int highestNumIndex = userHand.playableCardIndex(userHand.highestOfColor(currentColor), topCard);
-    	//if the user doesn't have a number card of the top color, they might have a card that matches the top number
-    	if (highestNumIndex == -1) {
-    		highestNumIndex = userHand.playableCardIndex(topCard.getValue(), topCard);
-    	}
-    	
-    	Hand nextOpponent;
-    	Hand previousOpponent;
-    	Hand oppositeOpponent = players.get(1);
-    	if (isReversed) {
-    		nextOpponent = players.get(0);
-    		previousOpponent = players.get(2);
-    	}
-    	else {
-    		nextOpponent = players.get(2);
-    		previousOpponent = players.get(0);
-    	}
-    	
-    	
-    	int leadingPlayerHandSize = Math.min(userHand.handSize(), 
-    			Math.min(nextOpponent.handSize(), 
-    					Math.min(previousOpponent.handSize(), oppositeOpponent.handSize())));
-    	
-    	//Going to lose; get rid of high points
-    	if (leadingPlayerHandSize < userHand.handSize() / 2 
-    			&& leadingPlayerHandSize < userHand.handSize() - 3) {
-    		if (drawFourIndex != -1) return result + "DrawFour, call " + getColorToCall();
-    		if (changeColorIndex != -1) return result + "ChangeColor, call " + getColorToCall();
-    		if (drawTwoIndex != -1) return result + userHand.getCard(drawTwoIndex).toString();
-    		if (previousOpponent.handSize() > oppositeOpponent.handSize()) {
-    			if (reverseIndex != -1) return result + userHand.getCard(reverseIndex).toString();
-    			if (skipIndex != -1) return result + userHand.getCard(skipIndex).toString();
-    			if (highestNumIndex != -1) return result + userHand.getCard(highestNumIndex).toString();
-    		}
-    		else {
-    			if (skipIndex != -1) return result + userHand.getCard(skipIndex).toString();
-    			if (reverseIndex != -1) return result + userHand.getCard(reverseIndex).toString();
-    			if (highestNumIndex != -1) return result + userHand.getCard(highestNumIndex).toString();
-    		}
-    	}
-    	
-    	//Try to save one black card for the end, otherwise get rid of extras
-    	else if (userHand.numCardsOfColor(Colors.Wild) > 1) {
-    		if (drawFourIndex != -1) return result + "DrawFour, call " + getColorToCall();
-    		if (changeColorIndex != -1) return result + "ChangeColor, call " + getColorToCall();
-    	}
-    	
-    	//Use a draw 2 if necessary, but you should save one
-    	else if (userHand.numCardsOfValue(Values.DrawTwo) > 1 || nextOpponent.handSize() < 3) {
-    		if (drawTwoIndex != -1) return result + userHand.getCard(drawTwoIndex).toString();
-    	}
-    	
-    	//Play normally
-    	if (skipIndex != -1) return result + userHand.getCard(skipIndex).toString();
-    	if (drawTwoIndex != -1) return result + userHand.getCard(drawTwoIndex).toString();
-    	if (reverseIndex != -1) return result + userHand.getCard(reverseIndex).toString();
-    	if (highestNumIndex != -1) return result + userHand.getCard(highestNumIndex).toString();
-		if (drawFourIndex != -1) return result + "DrawFour, call " + getColorToCall();
-		
-		//if the game isn't close to being lost, save your wilds
-		if (leadingPlayerHandSize > 2 && leadingPlayerHandSize > userHand.handSize() - 1) {
-			return result + "Pass";
-		}
-		if (changeColorIndex != -1) return result + "ChangeColor, call " + getColorToCall();
-		
-		//there are no cards the user can play
-		return result + "Pass";
+        if(currentColor == null)
+            return "Suggested Play: ";
+        else {
+            String result = "Suggested Play: ";
+            Card topCard = new Card(deck.discardPile.getTopCard().getValue(), currentColor);
+
+            int drawFourIndex = userHand.playableCardIndex(Values.DrawFour, topCard);
+            int changeColorIndex = userHand.playableCardIndex(Values.ChangeColor, topCard);
+            int drawTwoIndex = userHand.playableCardIndex(Values.DrawTwo, topCard);
+            int reverseIndex = userHand.playableCardIndex(Values.Reverse, topCard);
+            int skipIndex = userHand.playableCardIndex(Values.Skip, topCard);
+            int highestNumIndex = userHand.playableCardIndex(userHand.highestOfColor(currentColor), topCard);
+            //if the user doesn't have a number card of the top color, they might have a card that matches the top number
+            if (highestNumIndex == -1) {
+                highestNumIndex = userHand.playableCardIndex(topCard.getValue(), topCard);
+            }
+
+            Hand nextOpponent;
+            Hand previousOpponent;
+            Hand oppositeOpponent = players.get(1);
+            if (isReversed) {
+                nextOpponent = players.get(0);
+                previousOpponent = players.get(2);
+            } else {
+                nextOpponent = players.get(2);
+                previousOpponent = players.get(0);
+            }
+
+
+            int leadingPlayerHandSize = Math.min(userHand.handSize(),
+                    Math.min(nextOpponent.handSize(),
+                            Math.min(previousOpponent.handSize(), oppositeOpponent.handSize())));
+
+            //Going to lose; get rid of high points
+            if (leadingPlayerHandSize < userHand.handSize() / 2
+                    && leadingPlayerHandSize < userHand.handSize() - 3) {
+                if (drawFourIndex != -1) return result + "DrawFour, call " + getColorToCall();
+                if (changeColorIndex != -1) return result + "ChangeColor, call " + getColorToCall();
+                if (drawTwoIndex != -1) return result + userHand.getCard(drawTwoIndex).toString();
+                if (previousOpponent.handSize() > oppositeOpponent.handSize()) {
+                    if (reverseIndex != -1) return result + userHand.getCard(reverseIndex).toString();
+                    if (skipIndex != -1) return result + userHand.getCard(skipIndex).toString();
+                    if (highestNumIndex != -1) return result + userHand.getCard(highestNumIndex).toString();
+                } else {
+                    if (skipIndex != -1) return result + userHand.getCard(skipIndex).toString();
+                    if (reverseIndex != -1) return result + userHand.getCard(reverseIndex).toString();
+                    if (highestNumIndex != -1) return result + userHand.getCard(highestNumIndex).toString();
+                }
+            }
+
+            //Try to save one black card for the end, otherwise get rid of extras
+            else if (userHand.numCardsOfColor(Colors.Wild) > 1) {
+                if (drawFourIndex != -1) return result + "DrawFour, call " + getColorToCall();
+                if (changeColorIndex != -1) return result + "ChangeColor, call " + getColorToCall();
+            }
+
+            //Use a draw 2 if necessary, but you should save one
+            else if (userHand.numCardsOfValue(Values.DrawTwo) > 1 || nextOpponent.handSize() < 3) {
+                if (drawTwoIndex != -1) return result + userHand.getCard(drawTwoIndex).toString();
+            }
+
+            //Play normally
+            if (skipIndex != -1) return result + userHand.getCard(skipIndex).toString();
+            if (drawTwoIndex != -1) return result + userHand.getCard(drawTwoIndex).toString();
+            if (reverseIndex != -1) return result + userHand.getCard(reverseIndex).toString();
+            if (highestNumIndex != -1) return result + userHand.getCard(highestNumIndex).toString();
+            if (drawFourIndex != -1) return result + "DrawFour, call " + getColorToCall();
+
+            //if the game isn't close to being lost, save your wilds
+            if (leadingPlayerHandSize > 2 && leadingPlayerHandSize > userHand.handSize() - 1) {
+                return result + "Pass";
+            }
+            if (changeColorIndex != -1) return result + "ChangeColor, call " + getColorToCall();
+
+            //there are no cards the user can play
+            return result + "Pass";
+        }
     }
     
     //return the most optimal color to call
