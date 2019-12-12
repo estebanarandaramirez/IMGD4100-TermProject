@@ -81,6 +81,7 @@ public class Game {
                 gameFinished = true;
                 winningPlayer = turnCounter;
             }
+            players.get(turnCounter).discard();
             advanceTurn();
         }
         return cardPlayed;
@@ -89,10 +90,10 @@ public class Game {
     public boolean userPlayCard(Card c) {
         boolean validCard = userHand.contains(c);
         if (validCard) {
-            if (players.get(turnCounter).hasUno()) {
+            if (userHand.hasUno()) {
                 System.out.println("You have UNO!");
             }
-            if (players.get(turnCounter).hasWon()) {
+            if (userHand.hasWon()) {
                 System.out.println("You have won!");
                 gameFinished = true;
                 winningPlayer = turnCounter;
@@ -103,6 +104,7 @@ public class Game {
             else if (c.getValue().equals(Values.Skip)) {
                 advanceTurn();
             }
+            userHand.removeCard(c);
             advanceTurn();
         }
         return validCard;

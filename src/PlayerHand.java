@@ -70,16 +70,6 @@ public class PlayerHand {
 		//otherwise return -1
 		return -1;
 	}
-    
-    /*
-    public boolean contains(Colors color, Values value) {
-    	Card other = new Card(value, color);
-    	for (Card c : cards) {
-    		if (c.equals(other)) return true;
-    	}
-    	return false;
-    }
-    */
 
 	public int numCardsOfColor(Colors color) {
 		int counter = 0;
