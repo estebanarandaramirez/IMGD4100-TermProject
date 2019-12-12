@@ -70,7 +70,8 @@ public class Game {
             players.get(turnCounter).discard();
             if (c.getValue().equals(Values.Reverse)) {
                 isReversed = !isReversed;
-            } else if (c.getValue().equals(Values.Skip) || c.getValue().equals(Values.DrawTwo)) {
+            }
+            else if (c.getValue().equals(Values.Skip)) {
                 advanceTurn();
             }
             if (players.get(turnCounter).hasUno()) {
