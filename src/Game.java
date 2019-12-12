@@ -1,7 +1,5 @@
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Game {
 
@@ -122,36 +120,84 @@ public class Game {
         return turnCounter == 0;
     }
 
-    public static void main(String[] args) {
-        Deck deck = new Deck();
-        Scanner in = new Scanner(System.in);
-        String[] inputCards;
-        Card[] cards;
-        boolean start = true;
-        int turn = 1;
+    public Card convertToCard(String c) {
+        String[] attributes = c.split("-");
+        if(attributes.length != 2)
+            return new Card(null, null);
 
-        while(true) {
-            if(start) {
-                start = false;
-                System.out.println("Welcome to UNO bot");
-                System.out.println("Input each player's actions at each turn");
-                System.out.println("To terminate the program type 'exit'");
-            }
-            System.out.printf("Turn %d: ", turn);
-            String input = in.nextLine();
-            if(input.equals("exit"))
-                System.exit(0);
-
-            inputCards = input.split(" ");
-            cards = new Card[inputCards.length];
-            for(int i = 0; i < inputCards.length; i++) {
-                cards[i] = deck.convertToCard(inputCards[i]);
-                if(cards[i].getValue() == null || cards[i].getColor() == null) {
-                    System.out.println("Invalid card(s)");
-                    break;
-                }
-            }
+        Values value;
+        switch (attributes[0]) {
+            case "1":
+                value = Values.One;
+                break;
+            case "2":
+                value = Values.Two;
+                break;
+            case "3":
+                value = Values.Three;
+                break;
+            case "4":
+                value = Values.Four;
+                break;
+            case "5":
+                value = Values.Five;
+                break;
+            case "6":
+                value = Values.Six;
+                break;
+            case "7":
+                value = Values.Seven;
+                break;
+            case "8":
+                value = Values.Eight;
+                break;
+            case "9":
+                value = Values.Nine;
+                break;
+            case "Skip": case "skip": case "SKIP":
+                value = Values.Skip;
+                break;
+            case "DrawTwo": case "drawtwo": case "DRAWTWO":
+                value = Values.DrawTwo;
+                break;
+            case "Reverse": case "reverse": case "REVERSE":
+                value = Values.Reverse;
+                break;
+            case "ChangeColor": case "changecolor": case "CHANGECOLOR":
+                value = Values.ChangeColor;
+                break;
+            case "DrawFour": case "drawfour": case "DRAWFOUR":
+                value = Values.DrawFour;
+                break;
+            default:
+                value = null;
         }
-    }
+        Colors color;
+        switch (attributes[1]) {
+            case "Red": case "red": case "RED":
+                color = Colors.Red;
+                break;
+            case "Yellow": case "yellow": case "YELLOW":
+                color = Colors.Yellow;
+                break;
+            case "Green": case "green": case "GREEN":
+                color = Colors.Green;
+                break;
+            case "Blue": case "blue": case "BLUE":
+                color = Colors.Blue;
+                break;
+            case "Wild": case "wild": case "WILD":
+                color = Colors.Wild;
+                break;
+            default:
+                color = null;
+        }
 
+        if((value == Values.ChangeColor && color != Colors.Wild) || (value == Values.DrawFour && color != Colors.Wild) || (value != Values.ChangeColor && value != Values.DrawFour && color == Colors.Wild)) {
+            value = null;
+            color = null;
+        }
+
+        return new Card(value, color);
+    }
 }

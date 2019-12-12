@@ -14,13 +14,12 @@ public class Hand {
     }
 
     public void discard() {
-        numCards --;
+        numCards--;
     }
 
     public boolean hasUno() {
         return numCards == 1;
     }
-
 
     public boolean hasWon() {
         return numCards == 0;

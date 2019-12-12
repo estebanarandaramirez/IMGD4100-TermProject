@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2a7402bb-d1fa-4f4a-8b70-e909769e8b6e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/DiscardPile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Hand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PlayerHand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/StartGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TermProject/Card.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TermProject/Card.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TermProject/Deck$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TermProject/Deck$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TermProject/Deck.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TermProject/Deck.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TermProject/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TermProject/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TermProject/Hand.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TermProject/Hand.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Deck.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hand.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +52,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Game">
+  <component name="RunManager" selected="Application.StartGame">
     <configuration name="Deck" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Deck" />
       <module name="TermProject" />
@@ -70,8 +67,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="StartGame" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="StartGame" />
+      <module name="TermProject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.StartGame" />
         <item itemvalue="Application.Game" />
         <item itemvalue="Application.Deck" />
       </list>
@@ -90,6 +95,7 @@
       <workItem from="1575588196516" duration="3145000" />
       <workItem from="1575756324668" duration="5332000" />
       <workItem from="1576033064610" duration="1271000" />
+      <workItem from="1576077790284" duration="6285000" />
     </task>
     <servers />
   </component>
