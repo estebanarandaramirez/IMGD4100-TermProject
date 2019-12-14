@@ -287,7 +287,7 @@ public class Game {
             }
         }
 
-        //Try to save one black card for the end, otherwise get rid of extras
+        //Try to save one wild card for the end, otherwise get rid of extras
         else if (userHand.numCardsOfColor(Colors.Wild) > 1) {
             if (drawFourIndex != -1) return result + "DrawFour, call " + getColorToCall();
             if (changeColorIndex != -1) return result + "ChangeColor, call " + getColorToCall();
@@ -300,8 +300,8 @@ public class Game {
 
         //Play normally
         if (skipIndex != -1) return result + userHand.getCard(skipIndex).toString();
-        if (drawTwoIndex != -1) return result + userHand.getCard(drawTwoIndex).toString();
         if (reverseIndex != -1) return result + userHand.getCard(reverseIndex).toString();
+        if (drawTwoIndex != -1) return result + userHand.getCard(drawTwoIndex).toString();
         if (highestNumIndex != -1) return result + userHand.getCard(highestNumIndex).toString();
         if (drawFourIndex != -1) return result + "DrawFour, call " + getColorToCall();
 
