@@ -101,10 +101,20 @@ public class StartGame {
 
         while (!game.gameFinished) {
             if (!prevActionIllegal) {
+            	System.out.println("-----------------------------------------------------------------------");
                 playerHands = game.players;
-                System.out.printf("Opponent 0: %d cards \n", playerHands.get(0).handSize());
-                System.out.printf("Opponent 1: %d cards \n", playerHands.get(1).handSize());
-                System.out.printf("Opponent 2: %d cards \n", playerHands.get(2).handSize());
+                for (int i = 0; i < playerHands.size() - 1; i++) {
+                	String result = "Opponent " + i + ": " + + playerHands.get(i).handSize() + " cards";
+                	if (playerHands.get(i).cardsCantPlayOn.size() != 0) {
+                		result += " (Couldn't play on: ";
+                		for (int j = 0; j < playerHands.get(i).cardsCantPlayOn.size(); j++) {
+                			result += playerHands.get(i).cardsCantPlayOn.get(j).toString() + ", ";
+                		}
+                		result = result.substring(0, result.length() - 2);
+                		result += ")";
+                	}
+                	System.out.println(result);
+                }
                 System.out.printf("Your hand: %d cards \n", game.userHand.handSize());
                 System.out.print("\t");
                 game.userHand.printCards();
@@ -122,7 +132,6 @@ public class StartGame {
                 System.out.printf("TURN %d - Your turn: (%s) ", turn, game.recommendCard(game.deck.discardPile.getTopCard().getColor()));
             else {
                 System.out.printf("TURN %d - Opponent %d's turn: ", turn, game.turnCounter);
-                game.players.get(game.turnCounter).printCantPlayCards();
             }
             input = in.nextLine();
 

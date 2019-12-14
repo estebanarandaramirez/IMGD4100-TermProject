@@ -39,6 +39,7 @@ public class Hand {
     	return numCards;
     }
 
+    /*
     public void printCantPlayCards() {
         if(cardsCantPlayOn.size() > 0) {
             Card card;
@@ -61,5 +62,5 @@ public class Hand {
             }
         }
     }
-
+	*/
 }
