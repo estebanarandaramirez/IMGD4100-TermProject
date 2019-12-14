@@ -91,7 +91,7 @@ public class Game {
         boolean validCard = userHand.contains(c);
         if (validCard) {
             userHand.removeCard(c);
-            deck.playCard(c);
+            deck.discardPile.cards.add(c);
             if (userHand.hasUno()) {
                 System.out.println("You have UNO!");
             }
