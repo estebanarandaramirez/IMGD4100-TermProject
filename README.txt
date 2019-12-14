@@ -21,7 +21,12 @@ When a player wins the game the program recognizes it immediately and prints out
 winning player.
 
 ### External sources
-
+(The UNO strategy we ended up implementing for our suggestions)
+https://boardgames.stackexchange.com/questions/13162/what-specific-strategies-have-the-highest-winloss-ratio-in-uno
+(The rules of UNO we used as reference for how the game is supposed to be played)
+https://service.mattel.com/instruction_sheets/42001pr.pdf
+(A similar project that created a simulation environment and a more robust AI using deep learning that we used as inspiration)
+http://robotics.cs.tamu.edu/dshell/cs420/uno/introduction.htm
 
 ### Video
-https://drive.google.com/open?id=13c8DlmesADxNE7DgTuzUffeXjBeBfRS_
+https://drive.google.com/file/d/1Vjk0NrxTRZglLMMqPBg9BigR4-sRv3WA/view?usp=sharing
