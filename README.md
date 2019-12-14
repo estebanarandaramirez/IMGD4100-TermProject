@@ -24,4 +24,4 @@ winning player.
 
 
 ### Video
-https://drive.google.com/open?id=13c8DlmesADxNE7DgTuzUffeXjBeBfRS_
+https://drive.google.com/file/d/1Vjk0NrxTRZglLMMqPBg9BigR4-sRv3WA/view?usp=sharing
