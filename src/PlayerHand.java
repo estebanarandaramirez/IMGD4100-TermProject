@@ -53,6 +53,9 @@ public class PlayerHand {
 
 	//find the index of a playable card with a given value in the user's hand
 	public int playableCardIndex(Values cardValue, Card topCard) {
+		if (cardValue.equals(Values.None)) {
+			return -1;
+		}
 		//search for cards of the given value with the same color as the top card
 		for (int i = 0; i < cards.size(); i++) {
 			if (cards.get(i).getValue().equals(cardValue)) {
@@ -118,7 +121,7 @@ public class PlayerHand {
 		for (Card c : cards) {
 			if (c.equals(new Card(Values.Zero, color))) return Values.Zero;
 		}
-		return Values.ChangeColor;
+		return Values.None;
 	}
 
 		public void printCards() {

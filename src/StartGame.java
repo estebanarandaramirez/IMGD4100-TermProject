@@ -129,7 +129,12 @@ public class StartGame {
                 }
             }
             if (game.isUserTurn())
-                System.out.printf("TURN %d - Your turn: (%s) ", turn, game.recommendCard(game.deck.discardPile.getTopCard().getColor()));
+            	if (!game.deck.discardPile.getTopCard().getColor().equals(Colors.Wild)) {
+            		System.out.printf("TURN %d - Your turn: (%s) ", turn, game.recommendCard(game.deck.discardPile.getTopCard().getColor()));
+            	}
+            	else {
+            		System.out.printf("TURN %d - Your turn: ", turn);
+            	}
             else {
                 System.out.printf("TURN %d - Opponent %d's turn: ", turn, game.turnCounter);
             }

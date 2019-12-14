@@ -270,7 +270,6 @@ public class Game {
         int leadingPlayerHandSize = Math.min(userHand.handSize(),
                 Math.min(nextOpponent.handSize(),
                         Math.min(previousOpponent.handSize(), oppositeOpponent.handSize())));
-
         //Going to lose; get rid of high points
         if (leadingPlayerHandSize < userHand.handSize() / 2
                 && leadingPlayerHandSize < userHand.handSize() - 3) {
