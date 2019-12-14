@@ -1,6 +1,8 @@
-# UNO AI
+# UNO Assistant AI Tool
 # IMGD4100 - TermProject
 ## Esteban Aranda, Coady Parker, Treksh Marwaha
+
+For convenience, the source code is attached. Do try running the project to see it in action for yourself!
 
 ### Running the program
 Open the project on IntelliJ, locate 'StartGame.java' and run its main function. 
@@ -29,4 +31,4 @@ https://service.mattel.com/instruction_sheets/42001pr.pdf
 http://robotics.cs.tamu.edu/dshell/cs420/uno/introduction.htm
 
 ### Video
-https://drive.google.com/file/d/1Vjk0NrxTRZglLMMqPBg9BigR4-sRv3WA/view?usp=sharing
+https://drive.google.com/open?id=13c8DlmesADxNE7DgTuzUffeXjBeBfRS_
